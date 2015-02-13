@@ -24,4 +24,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)btnLista:(id)sender {
+}
+
+- (IBAction)btnMapa:(id)sender {
+}
 @end

@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+- (IBAction)btnLista:(id)sender;
+- (IBAction)btnMapa:(id)sender;
 
 @end
 
