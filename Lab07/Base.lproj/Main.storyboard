@@ -56,7 +56,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8gy-EM-td3">
-                                <rect key="frame" x="0.0" y="58" width="320" height="510"/>
+                                <rect key="frame" x="0.0" y="58" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -85,10 +85,10 @@
             </objects>
             <point key="canvasLocation" x="468" y="15"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View-->
         <scene sceneID="GGx-E0-WsI">
             <objects>
-                <viewController id="Ftv-YP-ehb" sceneMemberID="viewController">
+                <viewController id="Ftv-YP-ehb" customClass="mapView" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kNt-pf-lo9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,10 +103,19 @@
                                     <segue destination="vXZ-lx-hvc" kind="modal" identifier="mapToMain" id="w4l-8x-DrF"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" id="NJs-wg-DQj" userLabel="myMap">
+                                <rect key="frame" x="0.0" y="58" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="lQP-Q6-asa"/>
+                    <connections>
+                        <outlet property="Map_View" destination="NJs-wg-DQj" id="acP-rW-qzb"/>
+                        <outlet property="myMap" destination="NJs-wg-DQj" id="VbU-dN-xza"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUI-oa-uxY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -119,6 +128,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="lY2-NB-UYu"/>
+        <segue reference="w4l-8x-DrF"/>
     </inferredMetricsTieBreakers>
 </document>

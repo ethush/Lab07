@@ -7,8 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface ViewController : UIViewController
+NSString    *strUserLocation;
+float       mlatitude;
+float       mlongitude;
+
+
+@interface ViewController : UIViewController<CLLocationManagerDelegate>
+
+@property (strong, nonatomic) CLLocationManager     *locationManager;
+@property (strong, nonatomic) CLLocation            *location;
+
+
 
 - (IBAction)btnLista:(id)sender;
 - (IBAction)btnMapa:(id)sender;
