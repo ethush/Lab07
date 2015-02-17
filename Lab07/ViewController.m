@@ -7,11 +7,21 @@
 //
 
 #import "ViewController.h"
+#import "variables.h"
+
+
 
 @interface ViewController ()
 
 @end
 
+//Aqui los arreglos para la lista de ubicaciones
+NSMutableArray *maUbicacion;
+NSMutableArray *maNombre;
+NSMutableArray *maLatitud;
+NSMutableArray *maLongitud;
+NSString        *userID = @"1";
+NSDictionary    *jsonResponse;
 
 @implementation ViewController
 
@@ -27,26 +37,12 @@
     
     [self.locationManager startUpdatingLocation];
     
+    [self postService];
+    
+    [self loadService];
     
     
-    /*  JSON request */
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"http://www.s22.mx/administracion/rest/rest.php"]];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLResponse *requestResponse;
-    NSData *requestHandler = [NSURLConnection sendSynchronousRequest:request returningResponse:&requestResponse error:nil];
-    
-    NSString *requestReply = [[NSString alloc] initWithBytes:[requestHandler bytes] length:[requestHandler length] encoding:NSASCIIStringEncoding];
-    NSLog(@"requestReply: %@", requestReply);
-    
-    id jsonData = [requestReply dataUsingEncoding:NSUTF8StringEncoding]; //if input is NSString
-    //id readJsonDictOrArrayDependingOnJson = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    
-    NSArray *readJsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    NSInteger total =[readJsonArray count];
-    
-    //NSLog(@"Size %ld",  (long)total);
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,6 +55,8 @@
 
 - (IBAction)btnMapa:(id)sender {
 }
+
+
 
 
 /**********************************************************************************************
@@ -90,5 +88,75 @@
          NSLog(@"mlongitude = %f", mlongitude);
      }];
 }
+
+- (void) postService
+{
+    NSLog(@"postService");
+    NSOperationQueue *queue = [NSOperationQueue new];
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadService) object:nil];
+    [queue addOperation:operation];
+}
+
+
+- (void) loadService
+{
+    @try
+    {
+        NSString *post = [[NSString alloc] initWithFormat:@"id=%@", userID];
+        NSLog(@"postService: %@",post);
+        NSURL *url = [NSURL URLWithString:@"http://www.s22.mx/administracion/json.php"];
+        NSLog(@"URL postService = %@", url);
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        [NSURLRequest requestWithURL:url];
+        NSError *error = [[NSError alloc] init];
+        NSHTTPURLResponse *response = nil;
+        NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        //-------------------------------------------------------------------------------
+        if ([response statusCode] >=200 && [response statusCode] <300)
+        {
+            jsonResponse = [NSJSONSerialization JSONObjectWithData:urlData options:kNilOptions error:&error];
+        }
+        else
+        {
+            if (error)
+            {
+                NSLog(@"Error");
+                
+            }
+            else
+            {
+                NSLog(@"Conect Fail");
+            }
+        }
+        //-------------------------------------------------------------------------------
+    }
+    @catch (NSException * e)
+    {
+        NSLog(@"Exception");
+    }
+    //-------------------------------------------------------------------------------
+    NSLog(@"jsonResponse %@", jsonResponse);
+    
+    
+    
+    maNombre         = [jsonResponse valueForKey:@"nombre"];
+    maLatitud   = [jsonResponse valueForKey:@"latitud"];
+    maLongitud   = [jsonResponse valueForKey:@"longitud"];
+    //maUbicacion       = [jsonResponse valueForKey:@"surname"];
+    
+    NSLog(@"maNames %@", maNombre);
+    NSLog(@"maLatitud %@", maLatitud);
+    NSLog(@"maLongitud %@", maLongitud);
+    //NSLog(@"maSurname %@", maSurname);
+}
+
 
 @end

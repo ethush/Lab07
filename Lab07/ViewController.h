@@ -15,6 +15,7 @@ float       mlatitude;
 float       mlongitude;
 
 
+
 @interface ViewController : UIViewController<CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager     *locationManager;

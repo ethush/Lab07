@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B90AA641A93D559004D9BBB /* variables.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B90AA631A93D559004D9BBB /* variables.m */; };
+		8B90AA671A93D7A0004D9BBB /* cellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B90AA661A93D7A0004D9BBB /* cellView.m */; };
 		8B91CEEF1A8E905100476C34 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B91CEEE1A8E905100476C34 /* main.m */; };
 		8B91CEF21A8E905100476C34 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B91CEF11A8E905100476C34 /* AppDelegate.m */; };
 		8B91CEF51A8E905100476C34 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B91CEF41A8E905100476C34 /* ViewController.m */; };
@@ -44,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B90AA621A93D559004D9BBB /* variables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = variables.h; sourceTree = "<group>"; };
+		8B90AA631A93D559004D9BBB /* variables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = variables.m; sourceTree = "<group>"; };
+		8B90AA651A93D7A0004D9BBB /* cellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cellView.h; sourceTree = "<group>"; };
+		8B90AA661A93D7A0004D9BBB /* cellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cellView.m; sourceTree = "<group>"; };
 		8B91CEE91A8E905100476C34 /* Lab07.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lab07.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B91CEED1A8E905100476C34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B91CEEE1A8E905100476C34 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -157,6 +163,10 @@
 				8B91CF161A8EA45700476C34 /* tableView.m */,
 				8BA5BD561A926FA000D1EA24 /* mapView.h */,
 				8BA5BD571A926FA000D1EA24 /* mapView.m */,
+				8B90AA621A93D559004D9BBB /* variables.h */,
+				8B90AA631A93D559004D9BBB /* variables.m */,
+				8B90AA651A93D7A0004D9BBB /* cellView.h */,
+				8B90AA661A93D7A0004D9BBB /* cellView.m */,
 			);
 			path = Lab07;
 			sourceTree = "<group>";
@@ -293,6 +303,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B90AA671A93D7A0004D9BBB /* cellView.m in Sources */,
+				8B90AA641A93D559004D9BBB /* variables.m in Sources */,
 				8B91CEF51A8E905100476C34 /* ViewController.m in Sources */,
 				8B91CF171A8EA45700476C34 /* tableView.m in Sources */,
 				8BA5BD581A926FA000D1EA24 /* mapView.m in Sources */,

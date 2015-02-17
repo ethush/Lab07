@@ -7,21 +7,29 @@
 //
 
 #import "tableView.h"
+#import "variables.h"
+#import "cellView.h"
+
 
 @interface tableView ()
 
 
 @end
 
-NSArray *tableData;
 
+NSMutableArray *maUbicacion;
+NSMutableArray *maNombre;
+NSMutableArray *maLatitud;
+NSMutableArray *maLongitud;
+
+NSString *strSelectedName;
 
 @implementation tableView
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    tableData = [NSArray arrayWithObjects:@"Egg Benedict", @"Mushroom Risotto", @"Full Breakfast", @"Hamburger", @"Ham and Egg Sandwich", @"Creme Brelee", @"White Chocolate Donut", @"Starbucks Coffee", @"Vegetable Curry", @"Instant Noodle with Egg", @"Noodle with BBQ Pork", @"Japanese Noodle with Pork", @"Green Tea", @"Thai Shrimp Cake", @"Angry Birds Cake", @"Ham and Cheese Panini", nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,10 +46,19 @@ NSArray *tableData;
     // Pass the selected object to the new view controller.
 }
 */
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 64;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [tableData count];
+    return maNombre.count;
 }
 
 
@@ -49,13 +66,28 @@ NSArray *tableData;
 {
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    cellView *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[cellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
+    NSLog(@"%@", [maNombre objectAtIndex:indexPath.row]);
+    cell.lblNombre.text = [maNombre objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
     return cell;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    strSelectedName     = [NSString stringWithFormat:@"%@", maNombre[indexPath.row]];
+    //strSelectedImg      = [NSString stringWithFormat:@"%@", maImages[indexPath.row]];
+    
+    NSLog(@"strSelectedName %@", strSelectedName);
+    //NSLog(@"strSelectedImg %@", strSelectedImg);
+    
+    
+}
+
 @end
