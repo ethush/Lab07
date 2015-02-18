@@ -9,18 +9,20 @@
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <CoreLocation/CoreLocation.h>
+#import <iAd/iAd.h>
 
 NSString    *strUserLocation;
 float       mlatitude;
 float       mlongitude;
 
 
-
-@interface ViewController : UIViewController<CLLocationManagerDelegate>
+@interface ViewController : UIViewController<CLLocationManagerDelegate, ADBannerViewDelegate>{
+    ADBannerView *adView;
+    BOOL bannerIsVisible;
+}
 
 @property (strong, nonatomic) CLLocationManager     *locationManager;
 @property (strong, nonatomic) CLLocation            *location;
-
 
 
 - (IBAction)btnLista:(id)sender;

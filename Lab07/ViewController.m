@@ -15,12 +15,15 @@
 
 @end
 
-//Aqui los arreglos para la lista de ubicaciones
+//Aqui los arreglos para la lista de ubicaciones agisnados a los extern en variables.h
 NSMutableArray *maUbicacion;
 NSMutableArray *maNombre;
 NSMutableArray *maLatitud;
 NSMutableArray *maLongitud;
+
 NSString        *userID = @"1";
+
+//Variable donde se asigna el json del host remoto
 NSDictionary    *jsonResponse;
 
 @implementation ViewController
@@ -28,6 +31,8 @@ NSDictionary    *jsonResponse;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    //inicia la localizacion gps
     self.locationManager                    = [[CLLocationManager alloc] init];
     self.locationManager.delegate           = self;
     self.location                           = [[CLLocation alloc] init];
@@ -36,7 +41,10 @@ NSDictionary    *jsonResponse;
     [self.locationManager  requestAlwaysAuthorization];
     
     [self.locationManager startUpdatingLocation];
+    //init iADS
+    [self cfgiAdBanner];
     
+    //Se obtienen los datos del host remoto en estas funciones
     [self postService];
     
     [self loadService];
@@ -65,18 +73,18 @@ NSDictionary    *jsonResponse;
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.location = locations.lastObject;
-    NSLog( @"didUpdateLocation!");
+    //NSLog( @"didUpdateLocation!");
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:self.locationManager.location completionHandler:^(NSArray *placemarks, NSError *error)
      {
          for (CLPlacemark *placemark in placemarks)
          {
-             NSString *addressName = [placemark name];
-             NSString *city = [placemark locality];
+             //NSString *addressName = [placemark name];
+             //NSString *city = [placemark locality];
              NSString *administrativeArea = [placemark administrativeArea];
-             NSString *country  = [placemark country];
+             //NSString *country  = [placemark country];
              NSString *countryCode = [placemark ISOcountryCode];
-             NSLog(@"name is %@ and locality is %@ and administrative area is %@ and country is %@ and country code %@", addressName, city, administrativeArea, country, countryCode);
+             //NSLog(@"name is %@ and locality is %@ and administrative area is %@ and country is %@ and country code %@", addressName, city, administrativeArea, country, countryCode);
              strUserLocation = [[administrativeArea stringByAppendingString:@","] stringByAppendingString:countryCode];
              NSLog(@"gstrUserLocation = %@", strUserLocation);
          }
@@ -84,8 +92,8 @@ NSDictionary    *jsonResponse;
          //[mUserDefaults setObject: [[NSNumber numberWithFloat:mlatitude] stringValue] forKey: pmstrLatitude];
          mlongitude = self.locationManager.location.coordinate.longitude;
          //[mUserDefaults setObject: [[NSNumber numberWithFloat:mlatitude] stringValue] forKey: pmstrLatitude];
-         NSLog(@"mlatitude = %f", mlatitude);
-         NSLog(@"mlongitude = %f", mlongitude);
+         //NSLog(@"mlatitude = %f", mlatitude);
+         //NSLog(@"mlongitude = %f", mlongitude);
      }];
 }
 
@@ -103,9 +111,11 @@ NSDictionary    *jsonResponse;
     @try
     {
         NSString *post = [[NSString alloc] initWithFormat:@"id=%@", userID];
-        NSLog(@"postService: %@",post);
+        //NSLog(@"postService: %@",post);
+        //Host remoto con el script que devuelve el JSON
         NSURL *url = [NSURL URLWithString:@"http://www.s22.mx/administracion/json.php"];
-        NSLog(@"URL postService = %@", url);
+        //NSLog(@"URL postService = %@", url);
+        
         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -120,6 +130,8 @@ NSDictionary    *jsonResponse;
         NSHTTPURLResponse *response = nil;
         NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         //-------------------------------------------------------------------------------
+        // Aqui es la magia para comvertir de string a JSON a una variable de tipo NSDictionary para
+        //manipular mas facil los datos de los campos
         if ([response statusCode] >=200 && [response statusCode] <300)
         {
             jsonResponse = [NSJSONSerialization JSONObjectWithData:urlData options:kNilOptions error:&error];
@@ -143,19 +155,86 @@ NSDictionary    *jsonResponse;
         NSLog(@"Exception");
     }
     //-------------------------------------------------------------------------------
+    //Salida a consola del JSON obtenido
     NSLog(@"jsonResponse %@", jsonResponse);
     
-    
-    
-    maNombre         = [jsonResponse valueForKey:@"nombre"];
+    /* Con el json obtenido se asignan los valores en los NSMutableArray */
+    maNombre    = [jsonResponse valueForKey:@"nombre"];
     maLatitud   = [jsonResponse valueForKey:@"latitud"];
-    maLongitud   = [jsonResponse valueForKey:@"longitud"];
+    maLongitud  = [jsonResponse valueForKey:@"longitud"];
     //maUbicacion       = [jsonResponse valueForKey:@"surname"];
     
-    NSLog(@"maNames %@", maNombre);
-    NSLog(@"maLatitud %@", maLatitud);
-    NSLog(@"maLongitud %@", maLongitud);
+    //NSLog(@"maNames %@", maNombre);
+    //NSLog(@"maLatitud %@", maLatitud);
+    //NSLog(@"maLongitud %@", maLongitud);
     //NSLog(@"maSurname %@", maSurname);
+}
+
+
+//---------------------------------------------------
+// Aqui las funciones de iAds
+
+- (void)cfgiAdBanner
+{
+    // Setup iAdView
+    adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+    
+    //Set coordinates for adView
+    CGRect adFrame      = adView.frame;
+    adFrame.origin.y    = self.view.frame.size.height - 50;
+    NSLog(@"adFrame.origin.y: %f",adFrame.origin.y);
+    adView.frame        = adFrame;
+    
+    [adView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    
+    [self.view addSubview:adView];
+    adView.delegate         = self;
+    adView.hidden           = YES;
+    self->bannerIsVisible   = NO;
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!self->bannerIsVisible)
+    {
+        adView.hidden = NO;
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        // banner is invisible now and moved out of the screen on 50 px
+        [UIView commitAnimations];
+        self->bannerIsVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    if (self->bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        // banner is visible and we move it out of the screen, due to connection issue
+        [UIView commitAnimations];
+        adView.hidden = YES;
+        self->bannerIsVisible = NO;
+    }
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    NSLog(@"Banner view is beginning an ad action");
+    BOOL shouldExecuteAction = YES;
+    if (!willLeave && shouldExecuteAction)
+    {
+        // stop all interactive processes in the app
+        // [video pause];
+        // [audio pause];
+    }
+    return shouldExecuteAction;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // resume everything you've stopped
+    // [video resume];
+    // [audio resume];
 }
 
 

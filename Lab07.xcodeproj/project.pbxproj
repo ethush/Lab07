@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B5507571A9528330092B1D7 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B5507561A9528330092B1D7 /* iAd.framework */; };
 		8B90AA641A93D559004D9BBB /* variables.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B90AA631A93D559004D9BBB /* variables.m */; };
 		8B90AA671A93D7A0004D9BBB /* cellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B90AA661A93D7A0004D9BBB /* cellView.m */; };
 		8B91CEEF1A8E905100476C34 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B91CEEE1A8E905100476C34 /* main.m */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B5507561A9528330092B1D7 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		8B90AA621A93D559004D9BBB /* variables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = variables.h; sourceTree = "<group>"; };
 		8B90AA631A93D559004D9BBB /* variables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = variables.m; sourceTree = "<group>"; };
 		8B90AA651A93D7A0004D9BBB /* cellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cellView.h; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B5507571A9528330092B1D7 /* iAd.framework in Frameworks */,
 				8BA5BD551A926BB300D1EA24 /* SystemConfiguration.framework in Frameworks */,
 				8BA5BD531A926B9E00D1EA24 /* QuartzCore.framework in Frameworks */,
 				8BA5BD511A926B9300D1EA24 /* OpenGLES.framework in Frameworks */,
@@ -118,6 +121,7 @@
 		8B91CEE01A8E905100476C34 = {
 			isa = PBXGroup;
 			children = (
+				8B5507561A9528330092B1D7 /* iAd.framework */,
 				8B91CEEB1A8E905100476C34 /* Lab07 */,
 				8B91CF051A8E905200476C34 /* Lab07Tests */,
 				8B91CEEA1A8E905100476C34 /* Products */,

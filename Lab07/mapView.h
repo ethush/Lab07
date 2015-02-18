@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <iAd/iAd.h>
 
-@interface mapView : UIViewController <GMSMapViewDelegate>
+@interface mapView : UIViewController <CLLocationManagerDelegate, GMSMapViewDelegate, ADBannerViewDelegate>{
+    ADBannerView *adView;
+    BOOL bannerIsVisible;
+}
 
 @property (strong, nonatomic) IBOutlet UIView *Map_View;
 @property (strong, nonatomic) IBOutlet UIView *myMap;

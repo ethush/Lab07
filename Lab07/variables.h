@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 developer. All rights reserved.
 //
 
+/* Variables globales para almacenar la informacion obtenida del JSON */
 #import <Foundation/Foundation.h>
 
 @interface variables : NSObject

@@ -9,6 +9,7 @@
 #import "mapView.h"
 #import "ViewController.h"
 #import "variables.h"
+#import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
 GMSMapView *mapView_;
@@ -21,8 +22,8 @@ GMSMapView *mapView_;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+    [self cfgiAdBanner];
+    //A partir de la ubicacion del posicionador GPS se centra el mapa
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:mlatitude
                                                             longitude:mlongitude
                                                                  zoom:16];
@@ -39,13 +40,15 @@ GMSMapView *mapView_;
         NSString *longitud = [maLongitud objectAtIndex:i];
         
         
-        NSLog(@"%@ - %@", latitud, longitud);
+        NSLog(@"Agregado marcador en:%@ - %@", latitud, longitud);
         
         
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake([latitud floatValue], [longitud floatValue]);
-        marker.title = @"Master UAG";
-        marker.snippet = @"A punto de salir!";
+        marker.title = @"Lugares de copa.";
+        marker.tappable = YES;
+        
+        marker.snippet = [maNombre objectAtIndex:i];
         marker.map = mapView_;
         
     }
@@ -56,14 +59,34 @@ GMSMapView *mapView_;
     //marker.map = mapView_;
     [self.myMap addSubview:mapView_];
     
+    //Esto debe ir para que los marcadores sean tappables *preguntar al profesor*
+    mapView_.delegate = self;
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - set current location
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    
 }
 
+// Verifica y asigna como activo el marcador tocado
+#pragma mark - mapview events
+-(BOOL) mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker{
+    NSLog(@"%@", marker.description);
+    //    show info window
+    [mapView_ setSelectedMarker:marker];
+    return YES;
+}
+
+// Aqui se controla el tap en la ventana de informacion y manda a la aplicacion de mapas de iOS
+-(void)mapView:(GMSMapView *)mapView didTapInfoWindowOfMarker:(GMSMarker *)marker{
+    NSLog(@"info window tapped");
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(marker.layer.latitude,marker.layer.longitude);
+    
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:location addressDictionary:nil];
+    MKMapItem *item = [[MKMapItem alloc] initWithPlacemark:placemark];
+    item.name = marker.snippet;
+    [item openInMapsWithLaunchOptions:nil];
+}
 /*
 #pragma mark - Navigation
 
@@ -73,7 +96,72 @@ GMSMapView *mapView_;
     // Pass the selected object to the new view controller.
 }
 */
-     
+
+//---------------------------------------------------
+// Aqui las funciones de iAds
+
+- (void)cfgiAdBanner
+{
+    // Setup iAdView
+    adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+    
+    //Set coordinates for adView
+    CGRect adFrame      = adView.frame;
+    adFrame.origin.y    = self.view.frame.size.height - 50;
+    NSLog(@"adFrame.origin.y: %f",adFrame.origin.y);
+    adView.frame        = adFrame;
+    
+    [adView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    
+    [self.view addSubview:adView];
+    adView.delegate         = self;
+    adView.hidden           = YES;
+    self->bannerIsVisible   = NO;
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!self->bannerIsVisible)
+    {
+        adView.hidden = NO;
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        // banner is invisible now and moved out of the screen on 50 px
+        [UIView commitAnimations];
+        self->bannerIsVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    if (self->bannerIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        // banner is visible and we move it out of the screen, due to connection issue
+        [UIView commitAnimations];
+        adView.hidden = YES;
+        self->bannerIsVisible = NO;
+    }
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    NSLog(@"Banner view is beginning an ad action");
+    BOOL shouldExecuteAction = YES;
+    if (!willLeave && shouldExecuteAction)
+    {
+        // stop all interactive processes in the app
+        // [video pause];
+        // [audio pause];
+    }
+    return shouldExecuteAction;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // resume everything you've stopped
+    // [video resume];
+    // [audio resume];
+}
 
 
 

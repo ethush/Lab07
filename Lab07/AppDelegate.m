@@ -18,7 +18,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //API Key de Google Maps
     [GMSServices provideAPIKey:@"AIzaSyAeTYXLBmVK_g1wYRGJ4f4hK1mo4WfCeAQ"];
+    
+    //API Key usada en el ejercicio hecho en clase
     //[GMSServices provideAPIKey:@"AIzaSyD_ZfsgcSwuKdRHnRu7B8VTU3h2J5G7EBI"];
     
     return YES;
