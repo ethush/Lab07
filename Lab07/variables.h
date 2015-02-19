@@ -15,6 +15,8 @@ extern NSMutableArray *maUbicacion;
 extern NSMutableArray *maNombre;
 extern NSMutableArray *maLatitud;
 extern NSMutableArray *maLongitud;
+extern NSMutableArray *maHorario;
+extern NSMutableArray *maImagen;
 
 extern  NSString        *strSelectedName;
 extern  NSString        *strSelectedImg;

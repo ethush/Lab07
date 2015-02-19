@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "Analytics/GAI.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,18 @@
     
     //API Key usada en el ejercicio hecho en clase
     //[GMSServices provideAPIKey:@"AIzaSyD_ZfsgcSwuKdRHnRu7B8VTU3h2J5G7EBI"];
+    
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-59427848-1"];
     
     return YES;
 }

@@ -10,13 +10,14 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <CoreLocation/CoreLocation.h>
 #import <iAd/iAd.h>
+#import "Analytics/GAITrackedViewController.h"
 
 NSString    *strUserLocation;
 float       mlatitude;
 float       mlongitude;
 
 
-@interface ViewController : UIViewController<CLLocationManagerDelegate, ADBannerViewDelegate>{
+@interface ViewController : GAITrackedViewController<CLLocationManagerDelegate, ADBannerViewDelegate>{
     ADBannerView *adView;
     BOOL bannerIsVisible;
 }

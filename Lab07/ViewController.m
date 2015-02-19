@@ -20,6 +20,8 @@ NSMutableArray *maUbicacion;
 NSMutableArray *maNombre;
 NSMutableArray *maLatitud;
 NSMutableArray *maLongitud;
+NSMutableArray *maHorario;
+NSMutableArray *maImagen;
 
 NSString        *userID = @"1";
 
@@ -64,6 +66,15 @@ NSDictionary    *jsonResponse;
 - (IBAction)btnMapa:(id)sender {
 }
 
+
+/**********************************************************************************************
+ Google Analytics
+ **********************************************************************************************/
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.screenName = @"on ViewController screen";
+}
 
 
 
@@ -162,6 +173,8 @@ NSDictionary    *jsonResponse;
     maNombre    = [jsonResponse valueForKey:@"nombre"];
     maLatitud   = [jsonResponse valueForKey:@"latitud"];
     maLongitud  = [jsonResponse valueForKey:@"longitud"];
+    maHorario   = [jsonResponse valueForKey:@"horario"];
+    maImagen    = [jsonResponse valueForKey:@"imagen"];
     //maUbicacion       = [jsonResponse valueForKey:@"surname"];
     
     //NSLog(@"maNames %@", maNombre);

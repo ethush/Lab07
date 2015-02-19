@@ -45,10 +45,10 @@ GMSMapView *mapView_;
         
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake([latitud floatValue], [longitud floatValue]);
-        marker.title = @"Lugares de copa.";
+        marker.title = [maNombre objectAtIndex:i];
         marker.tappable = YES;
         
-        marker.snippet = [maNombre objectAtIndex:i];
+        marker.snippet = [maHorario objectAtIndex:i];
         marker.map = mapView_;
         
     }
@@ -62,6 +62,16 @@ GMSMapView *mapView_;
     //Esto debe ir para que los marcadores sean tappables *preguntar al profesor*
     mapView_.delegate = self;
 }
+
+/**********************************************************************************************
+ Google Analytics
+ **********************************************************************************************/
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.screenName = @"on mapView screen";
+}
+
 
 #pragma mark - set current location
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
@@ -84,7 +94,7 @@ GMSMapView *mapView_;
     
     MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:location addressDictionary:nil];
     MKMapItem *item = [[MKMapItem alloc] initWithPlacemark:placemark];
-    item.name = marker.snippet;
+    item.name = marker.title;
     [item openInMapsWithLaunchOptions:nil];
 }
 /*

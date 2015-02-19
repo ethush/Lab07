@@ -39,6 +39,15 @@ NSString *strSelectedName;
     // Dispose of any resources that can be recreated.
 }
 
+/**********************************************************************************************
+ Google Analytics
+ **********************************************************************************************/
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.screenName = @"on tableView screen";
+}
+
 /*
 #pragma mark - Navigation
 
@@ -55,7 +64,7 @@ NSString *strSelectedName;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 64;
+    return 84;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -69,12 +78,19 @@ NSString *strSelectedName;
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    //cellView *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
+        //cell = [[cellView alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
     }
     NSLog(@"%@", [maNombre objectAtIndex:indexPath.row]);
+    
     cell.textLabel.text = [maNombre objectAtIndex:indexPath.row];
+        cell.detailTextLabel.text = [maHorario objectAtIndex:indexPath.row];
+    NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/en/f/fc/UWH_userbox_image_test.png"]];
+    UIImage* image = [[UIImage alloc] initWithData:imageData];
+    [cell.imageView setImage:image]; // UIImageView
     
     return cell;
 }

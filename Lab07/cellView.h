@@ -10,6 +10,4 @@
 
 @interface cellView : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *lblNombre;
-
 @end

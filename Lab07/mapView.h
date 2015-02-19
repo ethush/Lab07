@@ -10,8 +10,9 @@
 #import <CoreLocation/CoreLocation.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <iAd/iAd.h>
+#import "Analytics/GAITrackedViewController.h"
 
-@interface mapView : UIViewController <CLLocationManagerDelegate, GMSMapViewDelegate, ADBannerViewDelegate>{
+@interface mapView : GAITrackedViewController <CLLocationManagerDelegate, GMSMapViewDelegate, ADBannerViewDelegate>{
     ADBannerView *adView;
     BOOL bannerIsVisible;
 }
