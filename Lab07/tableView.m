@@ -88,7 +88,14 @@ NSString *strSelectedName;
     
     cell.textLabel.text = [maNombre objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [maHorario objectAtIndex:indexPath.row];
-    NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/en/f/fc/UWH_userbox_image_test.png"]];
+    //NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/en/f/fc/UWH_userbox_image_test.png"]];
+    
+    /* 
+     Aqui la magia para obtener la imagen desde URL - no se considera buena practica porque
+     se obtiene de manera sincrona, debe hacerse de manera asincrona para o afectar la experiencia 
+     del usuario.
+     */
+    NSData* imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:[maImagen objectAtIndex:indexPath.row]]];
     UIImage* image = [[UIImage alloc] initWithData:imageData];
     [cell.imageView setImage:image]; // UIImageView
     
